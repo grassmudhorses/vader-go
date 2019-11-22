@@ -13,11 +13,10 @@ type SentiText struct {
 
 // Parse and Identify sentiment-relevant string-level properties of input text
 func Parse(text string) (s *SentiText) {
+	s = &SentiText{}
 	s.Text = text
-	//   this.words_and_emoticons = this.get_words_and_emoticons();
-	//   // doesn't separate words from adjacent punctuation (keeps emoticons & contractions)
-	//   this.is_cap_diff = allcap_differential(this.words_and_emoticons);
-	s.WordsAndEmotions = getWordsAndEmoticons(text)
+	s.WordsAndEmotions = getWordsAndEmoticons(lexicon.CleanExtraPunc(text))
+	//TODO: clean out repeat characters
 	s.IsCapDiff = lexicon.AllCapsDifferential(s.WordsAndEmotions)
 	return
 }
@@ -30,7 +29,12 @@ func getWordsAndEmoticons(text string) []string {
 		if len(token) < 2 {
 			continue
 		}
-		wordsOnly = append(wordsOnly, wordsPuncDict[token])
+		word := wordsPuncDict[token]
+		if word != "" {
+			wordsOnly = append(wordsOnly, word)
+		} else {
+			wordsOnly = append(wordsOnly, token)
+		}
 	}
 	return wordsOnly
 }

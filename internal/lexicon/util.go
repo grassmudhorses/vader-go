@@ -28,7 +28,7 @@ var Punc *regexp.Regexp
 var Spaces *regexp.Regexp
 
 func init() {
-	Punc = regexp.MustCompile(`/[!"#$%&'()*+,-./:;<=>?@[\\\]^_` + "`" + `{|}~]/g`)
+	Punc = regexp.MustCompile(`[!"#$%&'()*+,-./:;<=>?@[\\\]^_` + "`" + `{|}~…]`)
 	Spaces = regexp.MustCompile("[^\\s]+")
 }
 
@@ -41,5 +41,24 @@ func AllCapsDifferential(words []string) bool {
 		}
 	}
 	capDiff := len(words) - allCapsWords
+	//only true if words are partially caps.
 	return capDiff > 0 && capDiff < len(words)
+}
+
+// CleanExtraPunc removes contiguous puncs
+func CleanExtraPunc(text string) string {
+	lastPunc := ' '
+	out := strings.Builder{}
+	for _, char := range text {
+		if Punc.MatchString(string(char)) {
+			//special case for ... and …
+			if (lastPunc == char) || (lastPunc == '…' && char == '.') || (lastPunc == '.' && char == '…') {
+				//we ignore this one because it's a duplicate letter
+				continue
+			}
+		}
+		lastPunc = char
+		out.WriteRune(char)
+	}
+	return out.String()
 }

@@ -7524,6 +7524,7 @@ var PunctuationList = []string{
 	"`",
 	"'",
 	`"`,
+	`…`,
 }
 
 // NegateList words that are opposite
