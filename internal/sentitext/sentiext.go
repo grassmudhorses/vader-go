@@ -26,6 +26,7 @@ func Parse(text string) (s *SentiText) {
 // and most emoticons Does not preserve punc-plus-letter emoticons (e.g. :D)
 func getWordsAndEmoticons(text string) []string {
 	wordsOnly := []string{}
+	//FIXME: NonWords.FindAllString is not unicode safe
 	for _, token := range textutil.NonWords.FindAllString(text, -1) {
 		cutToken := strings.TrimFunc(token, unicode.IsPunct)
 		if len(cutToken) > 2 {
