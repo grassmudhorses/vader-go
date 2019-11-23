@@ -22,46 +22,31 @@ const (
 	NScalar float64 = -0.74
 )
 
-// Punc simple regex to remove punctuation
-var Punc *regexp.Regexp
-
-// Spaces simple regex to remove spaces
-var Spaces *regexp.Regexp
+// NonWords simple regex to split english
+var NonWords *regexp.Regexp
 
 func init() {
-	Punc = regexp.MustCompile(`[!"#$%&'()*+,-./:;<=>?@[\\\]^_` + "`" + `{|}~…]`)
-	Spaces = regexp.MustCompile("[^\\s]+")
+	NonWords = regexp.MustCompile(`[\'\w\d]+`)
 }
 
 // AllCapsDifferential Check whether just some words in the input are ALL CAPS
 func AllCapsDifferential(words []string) bool {
-	var allCapsWords int
+	var totallength int
+	var capslength int
 	for _, word := range words {
+		totallength += len(word)
 		if strings.ToUpper(word) == word {
-			allCapsWords++
+			capslength += len(word)
 		}
 	}
-	capDiff := len(words) - allCapsWords
-	//only true if words are partially caps.
-	return capDiff > 0 && capDiff < len(words)
-}
-
-// CleanExtraPunc removes contiguous puncs
-func CleanExtraPunc(text string) string {
-	lastPunc := ' '
-	out := strings.Builder{}
-	for _, char := range text {
-		if Punc.MatchString(string(char)) {
-			//special case for ... and …
-			if (lastPunc == char) || (lastPunc == '…' && char == '.') || (lastPunc == '.' && char == '…') {
-				//we ignore this one because it's a duplicate letter
-				continue
-			}
-		}
-		lastPunc = char
-		out.WriteRune(char)
+	//only true if words are partially caps, and at least 10% of letters are caps
+	if capslength == 0 || totallength == capslength {
+		return false
 	}
-	return out.String()
+	if capslength > 20 || float32(capslength)*10.0 > float32(totallength) {
+		return true
+	}
+	return false
 }
 
 //Normalize the score to be between -1 and 1 using an alpha that approximates the max expected value

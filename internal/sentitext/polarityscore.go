@@ -31,6 +31,7 @@ func PolarityScore(text string) Sentiment {
 
 // butCheck check for modification in sentiment due to contrastive conjunction 'but'
 func butCheck(words []string, sentiments []float64) []float64 {
+	//FIXME: can be optimized to O(words+sentiments) by compling a list of all 'but' indicies
 	for i, word := range words {
 		if strings.ToLower(word) != "but" {
 			continue

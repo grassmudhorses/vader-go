@@ -10,6 +10,12 @@ func TestAllCapsDifferential(t *testing.T) {
 		words []string
 		want  bool
 	}{
+
+		{
+			name:  "lesscaps",
+			words: []string{"What's", "the", "good", "word?", "To", "HELL", "With", "georgia!", "here is some more characters"},
+			want:  false,
+		},
 		{
 			name:  "allcaps",
 			words: []string{"WHAT'S", "THE", "GOOD", "WORD?"},
@@ -45,37 +51,6 @@ func TestAllCapsDifferential(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := AllCapsDifferential(tt.words); got != tt.want {
 				t.Errorf("AllCapsDifferential() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestCleanExtraPunc(t *testing.T) {
-	tests := []struct {
-		name string
-		text string
-		want string
-	}{
-		{
-			name: "1",
-			text: `"Yo…..what the fuck.." THEN IT CONTINUED and I was like "Yoooooooooooooooooooooooo……."`,
-			want: `"Yo…what the fuck." THEN IT CONTINUED and I was like "Yoooooooooooooooooooooooo…"`,
-		},
-		{
-			name: "2",
-			text: "..THOSE NIGGAS…YOOOOOOO…….THOSE NIGGAS….",
-			want: ".THOSE NIGGAS…YOOOOOOO…THOSE NIGGAS…",
-		},
-		{
-			name: "3",
-			text: "!!!Man ",
-			want: "!Man",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := CleanExtraPunc(tt.text); got != tt.want {
-				t.Errorf("CleanExtraPunc() = %v, want %v", got, tt.want)
 			}
 		})
 	}
