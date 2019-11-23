@@ -1,23 +1,19 @@
 package sentitext
 
-import (
-	"github.com/grassmudhorses/vader-go/internal/lexicon"
-)
+import textutil "github.com/grassmudhorses/vader-go/internal/textutil"
 
 // SentiText Identify sentiment-relevant string-level properties of input text
 type SentiText struct {
-	Text             string
-	WordsAndEmotions []string
-	IsCapDiff        bool
+	WordsAndEmotes []string
+	IsCapDiff      bool
 }
 
 // Parse and Identify sentiment-relevant string-level properties of input text
 func Parse(text string) (s *SentiText) {
 	s = &SentiText{}
-	s.Text = text
-	s.WordsAndEmotions = getWordsAndEmoticons(lexicon.CleanExtraPunc(text))
+	s.WordsAndEmotes = getWordsAndEmoticons(textutil.CleanExtraPunc(text))
 	//TODO: clean out repeat characters
-	s.IsCapDiff = lexicon.AllCapsDifferential(s.WordsAndEmotions)
+	s.IsCapDiff = textutil.AllCapsDifferential(s.WordsAndEmotes)
 	return
 }
 
@@ -25,7 +21,7 @@ func Parse(text string) (s *SentiText) {
 func getWordsAndEmoticons(text string) []string {
 	wordsPuncDict := getWordsPlusPunc(text)
 	wordsOnly := []string{}
-	for _, token := range lexicon.Spaces.FindAllString(text, -1) {
+	for _, token := range textutil.Spaces.FindAllString(text, -1) {
 		if len(token) < 2 {
 			continue
 		}
@@ -42,13 +38,13 @@ func getWordsAndEmoticons(text string) []string {
 // getWordsPlusPunc Returns mapping of form:
 // {  'cat,': 'cat',  ',cat': 'cat'}
 func getWordsPlusPunc(text string) map[string]string {
-	noPuncText := lexicon.Punc.ReplaceAllLiteralString(text, "")
+	noPuncText := textutil.Punc.ReplaceAllLiteralString(text, "")
 	wordsPuncDict := make(map[string]string)
-	for _, word := range lexicon.Spaces.FindAllString(noPuncText, -1) {
+	for _, word := range textutil.Spaces.FindAllString(noPuncText, -1) {
 		if len(word) < 2 {
 			continue
 		}
-		for _, punc := range lexicon.PunctuationList {
+		for _, punc := range textutil.PunctuationList {
 			wordsPuncDict[word+punc] = word
 			wordsPuncDict[punc+word] = word
 		}

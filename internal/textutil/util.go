@@ -1,6 +1,7 @@
-package lexicon
+package textutil
 
 import (
+	"math"
 	"regexp"
 	"strings"
 )
@@ -12,13 +13,13 @@ import (
 
 const (
 	// BoosterIncrease empirically derived mean sentiment intensity rating increase for booster words
-	BoosterIncrease float32 = 0.293
+	BoosterIncrease float64 = 0.293
 	// BoosterDecrease empirically derived mean sentiment intensity rating increase for booster words
-	BoosterDecrease float32 = -0.293
+	BoosterDecrease float64 = -0.293
 	// CapsIncrease empirically derived mean sentiment intensity rating increase for using ALLCAPs to emphasize a word
-	CapsIncrease float32 = 0.733
+	CapsIncrease float64 = 0.733
 	// NScalar .
-	NScalar float32 = -0.74
+	NScalar float64 = -0.74
 )
 
 // Punc simple regex to remove punctuation
@@ -61,4 +62,17 @@ func CleanExtraPunc(text string) string {
 		out.WriteRune(char)
 	}
 	return out.String()
+}
+
+//Normalize the score to be between -1 and 1 using an alpha that approximates the max expected value
+func Normalize(score float64, alpha float64) float64 {
+	norm := score / math.Sqrt((score*score)+alpha)
+	switch {
+	case norm < -1.0:
+		return -1.0
+	case norm > 1.0:
+		return 1.0
+	default:
+		return norm
+	}
 }

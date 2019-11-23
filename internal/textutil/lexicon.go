@@ -1,4 +1,4 @@
-package lexicon
+package textutil
 
 // Go port of vader sentiment analysis tool, source:
 // Hutto, C.J. & Gilbert, E.E. (2014). VADER`: A Parsimonious Rule-based Model for
@@ -6,7 +6,7 @@ package lexicon
 // Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
 
 // Lexicon as of 2018
-var Lexicon map[string]float32 = map[string]float32{
+var Lexicon map[string]float64 = map[string]float64{
 	`$:`:                  -1.5,
 	`%)`:                  -0.4,
 	`%-)`:                 -1.5,
@@ -3220,7 +3220,7 @@ var Lexicon map[string]float32 = map[string]float32{
 	`furious`:             -2.7,
 	`furiously`:           -1.9,
 	`fury`:                -2.7,
-	`futile`:              -1.9,
+	`ftextutile`:          -1.9,
 	`gag`:                 -1.4,
 	`gagged`:              -1.3,
 	`gain`:                2.4,
@@ -7592,7 +7592,7 @@ var NegateList = []string{
 
 // Boosters 'intensifiers' or 'degree adverbs'
 // http://en.wiktionary.org/wiki/Category:English_degree_adverbs
-var Boosters map[string]float32 = map[string]float32{
+var Boosters map[string]float64 = map[string]float64{
 	`absolutely`:    BoosterIncrease,
 	`amazingly`:     BoosterIncrease,
 	`awfully`:       BoosterIncrease,
@@ -7662,7 +7662,7 @@ var Boosters map[string]float32 = map[string]float32{
 }
 
 // SpecialIdioms using a sentiment-laden keyword known to VADER
-var SpecialIdioms map[string]float32 = map[string]float32{
+var SpecialIdioms map[string]float64 = map[string]float64{
 	`the shit`:        3,
 	`the bomb`:        3,
 	`bad ass`:         1.5,

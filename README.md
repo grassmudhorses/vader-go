@@ -18,6 +18,6 @@ TBD - WIP
 
 ## Roadmap
 
-1. Full feature parity with the original VADER-Sentiment-Analysis python tool
-2. Allow users to load lexicon information from any source
-3. Implement various sentiment calculations
+1. Full feature parity with the original VADER-Sentiment-Analysis python tool (50% complete)
+2. Allow users to load lexicon information from any source (0% complete)
+3. Emoji support (0% complete)
