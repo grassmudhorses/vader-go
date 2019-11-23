@@ -1,9 +1,7 @@
 package textutil
 
 import (
-	"math"
 	"regexp"
-	"strings"
 )
 
 // Go port of vader sentiment analysis tool, source:
@@ -27,37 +25,4 @@ var NonWords *regexp.Regexp
 
 func init() {
 	NonWords = regexp.MustCompile(`[\'\w\d]+`)
-}
-
-// AllCapsDifferential Check whether just some words in the input are ALL CAPS
-func AllCapsDifferential(words []string) bool {
-	var totallength int
-	var capslength int
-	for _, word := range words {
-		totallength += len(word)
-		if strings.ToUpper(word) == word {
-			capslength += len(word)
-		}
-	}
-	//only true if words are partially caps, and at least 10% of letters are caps
-	if capslength == 0 || totallength == capslength {
-		return false
-	}
-	if capslength > 20 || float32(capslength)*10.0 > float32(totallength) {
-		return true
-	}
-	return false
-}
-
-//Normalize the score to be between -1 and 1 using an alpha that approximates the max expected value
-func Normalize(score float64, alpha float64) float64 {
-	norm := score / math.Sqrt((score*score)+alpha)
-	switch {
-	case norm < -1.0:
-		return -1.0
-	case norm > 1.0:
-		return 1.0
-	default:
-		return norm
-	}
 }

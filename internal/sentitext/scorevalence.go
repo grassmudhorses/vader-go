@@ -31,7 +31,7 @@ func ScoreValence(sentimentscores []float64, text string) Sentiment {
 		} else if sentimentSum < 0 {
 			sentimentSum -= puncAmp
 		}
-		compound := textutil.Normalize(sentimentSum, 15.0)
+		compound := normalize(sentimentSum, 15.0)
 		// discriminate between positive, negative and neutral sentiment scores
 		pos, neg, neu := siftSentimentScores(sentimentscores)
 		if pos > math.Abs(neg) {
@@ -94,4 +94,17 @@ func siftSentimentScores(sentimentscores []float64) (posSum float64, negSum floa
 		}
 	}
 	return posSum, negSum, float64(neu)
+}
+
+//normalize the score to be between -1 and 1 using an alpha that approximates the max expected value
+func normalize(score float64, alpha float64) float64 {
+	norm := score / math.Sqrt((score*score)+alpha)
+	switch {
+	case norm < -1.0:
+		return -1.0
+	case norm > 1.0:
+		return 1.0
+	default:
+		return norm
+	}
 }
