@@ -20,9 +20,9 @@ const (
 	NScalar float64 = -0.74
 )
 
-// NonWords simple regex to split english
+// NonWords simple regex to split emojis and words
 var NonWords *regexp.Regexp
 
 func init() {
-	NonWords = regexp.MustCompile(`[\'\w\d]+`)
+	NonWords = regexp.MustCompile(`[^\p{Z}\p{S}\p{C}]+`)
 }

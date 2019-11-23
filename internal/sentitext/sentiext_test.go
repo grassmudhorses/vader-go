@@ -26,10 +26,22 @@ func TestParse(t *testing.T) {
 				IsCapDiff: true,
 			},
 		},
+
+		{
+			name: "emoji-laden",
+			text: `Just me and my 💕daddy💕, hanging out I got pretty hungry🍆 so I started to pout 😞 He asked if I was down ⬇for something yummy 😍🍆 and I asked what and he said he'd give me his 💦cummies!💦 Yeah! Yeah!💕💦 I drink them!💦 I slurp them!💦 I swallow them whole💦 😍 It makes 💘daddy💘 😊happy😊 so it's my only goal... 💕💦😫Harder daddy! Harder daddy! 😫💦💕 1 cummy💦, 2 cummy💦💦, 3 cummy💦💦💦, 4💦💦💦💦 I'm 💘daddy's💘 👑princess 👑but I'm also a whore! 💟 He makes me feel squishy💗!He makes me feel good💜! 💘💘💘He makes me feel everything a little should!~ 💘💘💘 👑💦💘Wa-What!💘💦👑`,
+			wantS: &SentiText{
+				IsCapDiff: true,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotS := Parse(tt.text)
+
+			if !reflect.DeepEqual(gotS.WordsAndEmotes, tt.wantS.WordsAndEmotes) {
+				t.Errorf("Parse() = %v, want %v", gotS, tt.wantS)
+			}
 
 			if !reflect.DeepEqual(gotS.IsCapDiff, tt.wantS.IsCapDiff) {
 				t.Errorf("Parse() = %v, want %v", gotS, tt.wantS)
