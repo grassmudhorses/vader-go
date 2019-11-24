@@ -39,7 +39,9 @@ func getWordsAndEmoticons(text string) []string {
 	for _, token := range Spaces.FindAllString(text, -1) {
 		for _, word := range splitEmojis(token) {
 			word = strings.TrimFunc(word, unicode.IsPunct)
-			wordsOnly = append(wordsOnly, word)
+			if len(word) != 0 {
+				wordsOnly = append(wordsOnly, word)
+			}
 		}
 	}
 	return wordsOnly
@@ -74,6 +76,10 @@ func allCapsDifferential(words []string) bool {
 	var totallength int
 	var capslength int
 	for _, word := range words {
+		//emojis and single letters ignored for caps
+		if len(word) < 2 || Emoji.MatchString(word) {
+			continue
+		}
 		totallength += len(word)
 		if strings.ToUpper(word) == word {
 			capslength += len(word)
