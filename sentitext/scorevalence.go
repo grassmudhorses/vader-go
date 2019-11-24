@@ -9,10 +9,10 @@ import (
 
 // Sentiment of a phrase or sentence
 type Sentiment struct {
-	Negative float64 `json:"neg"`
-	Neutral  float64 `json:"neu"`
-	Positive float64 `json:"pos"`
-	Compound float64 `json:"compound"`
+	Negative float64 `json:"neg" csv:"neg"`
+	Neutral  float64 `json:"neu" csv:"neu"`
+	Positive float64 `json:"pos" csv:"pos"`
+	Compound float64 `json:"compound" csv:"compound"`
 }
 
 // ScoreValence .
