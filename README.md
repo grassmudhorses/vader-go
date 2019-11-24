@@ -18,8 +18,8 @@ TBD - WIP
 
 ## Roadmap
 
-1. Full feature parity with the original VADER-Sentiment-Analysis python tool (50% complete)
+1. Full feature parity with the original VADER-Sentiment-Analysis python tool (90% complete)
 2. Allow users to load lexicon information from any source (0% complete)
-3. Code cleanup and golang-specific optimizations (0% complete)
+3. Code cleanup and golang-specific optimizations (30% complete)
 4. Iterative undefined word analysis using Wiktionary and Urbandictionary (0% complete)
-5. Lexicon generation through iterative analysis (0% complete)
+5. Lexicon generation through iterative dictionary analysis (0% complete)
