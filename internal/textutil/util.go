@@ -12,6 +12,6 @@ const (
 	BoosterDecrease float64 = -0.293
 	// CapsIncrease empirically derived mean sentiment intensity rating increase for using ALLCAPs to emphasize a word
 	CapsIncrease float64 = 0.733
-	// NScalar .
-	NScalar float64 = -0.74
+	// NegationScalar empirically derived mean sentiment intensity reflection upon negating
+	NegationScalar float64 = -0.74
 )

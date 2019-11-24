@@ -3,6 +3,7 @@ package sentitext
 import (
 	"encoding/json"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -37,7 +38,13 @@ func TestParse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotS := Parse(tt.text)
-			gotwords, err := json.Marshal(gotS.WordsAndEmotes)
+			wordsp := *gotS.WordsAndEmotes
+			words := make([]string, len(wordsp))
+			for i, v := range wordsp {
+				words[i] = v.Word
+			}
+
+			gotwords, err := json.Marshal(words)
 			if err != nil {
 				t.Error(err)
 			}
@@ -97,7 +104,11 @@ func TestAllCapsDifferential(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := allCapsDifferential(tt.words); got != tt.want {
+			sentis := make([]SentiWord, len(tt.words))
+			for i := range tt.words {
+				sentis[i] = SentiWord{Word: tt.words[i], IsCaps: tt.words[i] == strings.ToUpper(tt.words[i])}
+			}
+			if got := allCapsDifferential(&sentis); got != tt.want {
 				t.Errorf("AllCapsDifferential() = %v, want %v", got, tt.want)
 			}
 		})

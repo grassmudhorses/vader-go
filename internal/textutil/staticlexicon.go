@@ -7513,14 +7513,14 @@ var Lexicon map[string]float64 = map[string]float64{
 }
 
 // NegateList words that are opposite
-var NegateList = []string{"aint", "arent", "cannot", "cant", "couldnt", "darent", "didnt", "doesnt",
-	"ain't", "aren't", "can't", "couldn't", "daren't", "didn't", "doesn't",
-	"dont", "hadnt", "hasnt", "havent", "isnt", "mightnt", "mustnt", "neither",
-	"don't", "hadn't", "hasn't", "haven't", "isn't", "mightn't", "mustn't",
-	"neednt", "needn't", "never", "none", "nope", "nor", "not", "nothing", "nowhere",
-	"oughtnt", "shant", "shouldnt", "uhuh", "wasnt", "werent",
-	"oughtn't", "shan't", "shouldn't", "uh-uh", "wasn't", "weren't",
-	"without", "wont", "wouldnt", "won't", "wouldn't", "rarely", "seldom", "despite"}
+var NegateList = map[string]bool{"aint": true, "arent": true, "cannot": true, "cant": true, "couldnt": true, "darent": true, "didnt": true, "doesnt": true,
+	"ain't": true, "aren't": true, "can't": true, "couldn't": true, "daren't": true, "didn't": true, "doesn't": true,
+	"dont": true, "hadnt": true, "hasnt": true, "havent": true, "isnt": true, "mightnt": true, "mustnt": true, "neither": true,
+	"don't": true, "hadn't": true, "hasn't": true, "haven't": true, "isn't": true, "mightn't": true, "mustn't": true,
+	"neednt": true, "needn't": true, "never": true, "none": true, "nope": true, "nor": true, "not": true, "nothing": true, "nowhere": true,
+	"oughtnt": true, "shant": true, "shouldnt": true, "uhuh": true, "wasnt": true, "werent": true,
+	"oughtn't": true, "shan't": true, "shouldn't": true, "uh-uh": true, "wasn't": true, "weren't": true,
+	"without": true, "wont": true, "wouldnt": true, "won't": true, "wouldn't": true, "rarely": true, "seldom": true, "despite": true}
 
 // Boosters 'intensifiers' or 'degree adverbs'
 // http://en.wiktionary.org/wiki/Category:English_degree_adverbs

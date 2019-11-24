@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/grassmudhorses/vader-go/internal/textutil"
 )
 
 // Spaces simple regex to split emojis and words
@@ -19,28 +21,37 @@ func init() {
 
 // SentiText Identify sentiment-relevant string-level properties of input text
 type SentiText struct {
-	WordsAndEmotes []string
+	WordsAndEmotes *[]SentiWord
 	IsCapDiff      bool
+}
+
+type SentiWord struct {
+	Word          string
+	Lower         string
+	BaseSentiment float64
+	IsCaps        bool
 }
 
 // Parse and Identify sentiment-relevant string-level properties of input text
 func Parse(text string) (s *SentiText) {
 	s = &SentiText{}
-	s.WordsAndEmotes = getWordsAndEmoticons(text)
-	//TODO: clean out repeat characters
+	sentwords := getWordsAndEmoticons(text)
+	s.WordsAndEmotes = &sentwords
 	s.IsCapDiff = allCapsDifferential(s.WordsAndEmotes)
 	return
 }
 
 // getWordsAndEmoticons Removes leading and trailing puncutation Leaves contractions
 // and emoji. Does not preserve punc-plus-letter emoticons (e.g. :D)
-func getWordsAndEmoticons(text string) []string {
-	wordsOnly := []string{}
+func getWordsAndEmoticons(text string) []SentiWord {
+	wordsOnly := []SentiWord{}
 	for _, token := range Spaces.FindAllString(text, -1) {
 		for _, word := range splitEmojis(token) {
 			word = strings.TrimFunc(word, unicode.IsPunct)
 			if len(word) != 0 {
-				wordsOnly = append(wordsOnly, word)
+				lower := strings.ToLower(word)
+				isUpper := strings.ToUpper(word) == word && !Emoji.MatchString(word)
+				wordsOnly = append(wordsOnly, SentiWord{BaseSentiment: textutil.Lexicon[lower], IsCaps: isUpper, Lower: lower, Word: word})
 			}
 		}
 	}
@@ -72,17 +83,17 @@ func splitEmojis(token string) []string {
 }
 
 // allCapsDifferential Check whether just some words in the input are ALL CAPS
-func allCapsDifferential(words []string) bool {
+func allCapsDifferential(words *[]SentiWord) bool {
 	var totallength int
 	var capslength int
-	for _, word := range words {
+	for _, word := range *words {
 		//emojis and single letters ignored for caps
-		if len(word) < 2 || Emoji.MatchString(word) {
+		if len(word.Word) < 2 || Emoji.MatchString(word.Word) {
 			continue
 		}
-		totallength += len(word)
-		if strings.ToUpper(word) == word {
-			capslength += len(word)
+		totallength += len(word.Word)
+		if word.IsCaps {
+			capslength += len(word.Word)
 		}
 	}
 	//only true if words are partially caps, and at least 10% of letters are caps
