@@ -1,9 +1,5 @@
 package textutil
 
-import (
-	"regexp"
-)
-
 // Go port of vader sentiment analysis tool, source:
 // Hutto, C.J. & Gilbert, E.E. (2014). VADER`: A Parsimonious Rule-based Model for
 // Sentiment Analysis of Social Media Text. Eighth International Conference on
@@ -19,10 +15,3 @@ const (
 	// NScalar .
 	NScalar float64 = -0.74
 )
-
-// NonWords simple regex to split emojis and words
-var NonWords *regexp.Regexp
-
-func init() {
-	NonWords = regexp.MustCompile(`[^\p{Z}\p{S}\p{C}]+`)
-}

@@ -101,3 +101,44 @@ func TestAllCapsDifferential(t *testing.T) {
 		})
 	}
 }
+
+func Test_splitEmojis(t *testing.T) {
+	tests := []struct {
+		name  string
+		token string
+		want  []string
+	}{
+		{
+			name:  "stacked",
+			token: "👑💦💘Wa-What!💘💦👑",
+			want:  []string{"👑💦💘", "Wa-What!", "💘💦👑"},
+		},
+		{
+			name:  "surround",
+			token: "💕daddy💕",
+			want:  []string{"💕", "daddy", "💕"},
+		},
+		{
+			name:  "multi",
+			token: "💘💘💘He",
+			want:  []string{"💘💘💘", "He"},
+		},
+		{
+			name:  "pre",
+			token: "yummy💘💘💘",
+			want:  []string{"yummy", "💘💘💘"},
+		},
+		{
+			name:  "embedded",
+			token: "squishy💗!He",
+			want:  []string{"squishy", "💗", "!He"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := splitEmojis(tt.token); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("splitEmojis() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

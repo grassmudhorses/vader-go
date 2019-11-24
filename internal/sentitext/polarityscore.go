@@ -21,8 +21,8 @@ func PolarityScore(text string) Sentiment {
 			sentiments = append(sentiments, 0.0)
 			continue
 		}
-
-		//sentiments = self.sentiment_valence(valence, sentitext, item, i, sentiments)
+		//determine sentiment of current word based on surrounding lexicon cues
+		sentiments = SentimentValence(senti, word, i, sentiments)
 	}
 	//apply "but" check
 	sentiments = butCheck(senti.WordsAndEmotes, sentiments)
