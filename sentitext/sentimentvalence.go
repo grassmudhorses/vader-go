@@ -43,6 +43,7 @@ package sentitext
 // 	sentiments.append(valence)
 // 	return sentiments
 
+// SentimentValence .
 func SentimentValence(sentitext *SentiText, item string, i int, sentiments []float64) []float64 {
 	valence := 0.0
 	return []float64{valence}
