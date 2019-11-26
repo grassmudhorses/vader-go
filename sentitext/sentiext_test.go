@@ -5,6 +5,8 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/grassmudhorses/vader-go/lexicon"
 )
 
 func TestParse(t *testing.T) {
@@ -37,7 +39,7 @@ func TestParse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotS := Parse(tt.text)
+			gotS := Parse(tt.text, lexicon.DefaultLexicon)
 			wordsp := *gotS.WordsAndEmotes
 			words := make([]string, len(wordsp))
 			for i, v := range wordsp {

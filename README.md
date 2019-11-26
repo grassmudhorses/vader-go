@@ -3,10 +3,10 @@ Go port of the [VADER sentiment analysis tool](https://github.com/cjhutto/vaderS
 
 For full information, please read the [VADER-Sentiment-Analysis README](https://github.com/cjhutto/vaderSentiment).
 
-### Source:
-> Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Eighth International Conference on Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
+### Source
 
-A helluva, helluva, helluva, helluva, hell of an engineer.
+Based on research from
+> Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Eighth International Conference on Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
 
 ## Usage
 
@@ -44,7 +44,7 @@ After following Development above:
 ## Roadmap
 
 1. Full feature parity with the original VADER-Sentiment-Analysis python tool (90% complete)
-2. Allow users to load lexicon information from any source (0% complete)
-3. Code cleanup and golang-specific optimizations (30% complete)
+2. Allow users to load lexicon information from any source (80% complete)
+3. Code cleanup and golang-specific optimizations (50% complete)
 4. Iterative undefined word analysis using Wiktionary and Urbandictionary (0% complete)
 5. Lexicon generation through iterative dictionary analysis (0% complete)

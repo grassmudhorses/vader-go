@@ -1,13 +1,7 @@
 package sentitext
 
-import (
-	textutil "github.com/grassmudhorses/vader-go/internal/textutil"
-)
-
 // PolarityScore Return a float for sentiment strength based on the input text. Positive values are positive valence, negative value are negative valence.
-func PolarityScore(text string) Sentiment {
-	senti := Parse(text)
-
+func PolarityScore(senti *SentiText) Sentiment {
 	words := *senti.WordsAndEmotes
 	sentiments := []float64{}
 	for i, word := range words {
@@ -17,7 +11,7 @@ func PolarityScore(text string) Sentiment {
 			continue
 		}
 		//boost words don't have valence since they can be positive or negative
-		if textutil.Boosters[word.Lower] != 0.0 {
+		if word.BoostValue != 0.0 {
 			sentiments = append(sentiments, 0.0)
 			continue
 		}
@@ -26,14 +20,14 @@ func PolarityScore(text string) Sentiment {
 	}
 	//apply "but" check
 	sentiments = butCheck(&words, sentiments)
-	return ScoreValence(sentiments, text)
+	return ScoreValence(sentiments, senti.Original)
 }
 
 // butCheck check for modification in sentiment due to contrastive conjunction 'but'
 func butCheck(words *[]SentiWord, sentiments []float64) []float64 {
 	//FIXME: can be optimized to O(words+sentiments) by compling a list of all 'but' indicies
 	for i, word := range *words {
-		if word.Lower != "but" {
+		if !word.IsContrast {
 			continue
 		}
 		// every but makes all sentiments before it weaker, and those after it stronger.

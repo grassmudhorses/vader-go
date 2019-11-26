@@ -3,7 +3,7 @@ package sentitext
 import (
 	"strings"
 
-	"github.com/grassmudhorses/vader-go/internal/textutil"
+	"github.com/grassmudhorses/vader-go/textutil"
 )
 
 // SentimentValence .
@@ -54,7 +54,7 @@ func SentimentValence(sentitext *SentiText, item SentiWord, i int, sentiments []
 
 // scalarIncreaseDecease Check if the preceding words increase, decrease, or negate/nullify the valence
 func scalarIncreaseDecease(word SentiWord, valence float64, isCapDiff bool) float64 {
-	scalar := textutil.Boosters[word.Lower]
+	scalar := word.BoostValue
 	if scalar != 0.0 {
 		if valence < 0 {
 			scalar *= -1.0
@@ -117,7 +117,7 @@ func specialIdiomsCheck(valence float64, words *[]SentiWord, i int) float64 {
 // Determine if input contains negation words
 func containsNegation(lowerwords []SentiWord) bool {
 	for _, word := range lowerwords {
-		if textutil.NegateList[word.Lower] {
+		if word.IsNegation {
 			return true
 		}
 		if strings.Contains(word.Lower, "n't") {

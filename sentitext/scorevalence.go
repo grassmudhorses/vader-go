@@ -4,7 +4,7 @@ import (
 	"math"
 	"strings"
 
-	textutil "github.com/grassmudhorses/vader-go/internal/textutil"
+	textutil "github.com/grassmudhorses/vader-go/textutil"
 )
 
 // Sentiment of a phrase or sentence
